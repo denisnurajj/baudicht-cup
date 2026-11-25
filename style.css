@@ -34,3 +34,7 @@ header .brand .header-baudicht-logo{width:min(540px,92vw)!important;max-height:2
 
 /* Swisslife Select / Denis Nuraj sponsor logo: slightly larger */
 .sponsor-grid .sponsor-card:nth-child(3) img{max-width:96%!important;max-height:108px!important;width:auto!important;height:auto!important;object-fit:contain!important;}
+
+/* Crop the white outer margin on the original Baudicht logo image */
+header .brand .header-baudicht-logo{clip-path:inset(5% 2.5% 5% 2.5%);background:transparent!important;}
+.sponsor-grid .main-sponsor img{clip-path:inset(5% 2.5% 5% 2.5%);}
