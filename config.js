@@ -1,2 +1,4 @@
-// Werte nach Einrichtung des Supabase-Projekts ergänzen.
-window.BAUDICHT_CONFIG = { SUPABASE_URL: 'YOUR_SUPABASE_PROJECT_URL', SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_PUBLIC_KEY' };
+window.BAUDICHT_CONFIG = {
+  SUPABASE_URL: 'https://pvchjzviuqlccaeinfqy.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_f-cKnJ_zRv_brYUofc7Ejw_0jj7HRrr'
+};
