@@ -70,8 +70,8 @@ function roundsMarkup(p){
   f:'Finale'
  };
  return keys.map(k=>{
-  if(!p[k]?.length)return '';
-  return `<h3>${labels[k]}</h3>${p[k].map((m,i)=>row(m,i,k)).join('')}`;
+  if(!p[k]?.length)return `<section class="admin-round"><h3>${labels[k]}</h3><p class="round-note">${k==='playin'?'Wird nach Abschluss aller Ligaspiele automatisch erstellt.':k==='r16'?'Wird nach den Playoff-Spielen automatisch erstellt.':'Wird nach Abschluss der vorherigen KO-Runde automatisch erstellt.'}</p></section>`;
+  return `<section class="admin-round"><h3>${labels[k]}</h3>${p[k].map((m,i)=>row(m,i,k)).join('')}</section>`;
  }).join('');
 }
 
