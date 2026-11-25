@@ -10,14 +10,14 @@ async function load(){
   const st=document.getElementById('status');
   try{
     if(!db){if(st)st.textContent='Supabase-Verbindung fehlt';render();return;}
-    const {data:d,error}=await db.from('tournament_state').select('payload').eq('id',1).single();
+    const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();
     if(error)throw error;
-    if(d?.payload)data=d.payload;
+    if(d?.state)data=d.state;
     data.teams=data.teams||fallbackTeams;data.matches=data.matches||[];
     if(!data.playoffs||Array.isArray(data.playoffs)||typeof data.playoffs!=='object')data.playoffs={};
     window.BC.data=data;
     const changed=advance();render();
-    if(changed){const {error:saveError}=await db.from('tournament_state').upsert({id:1,payload:data});if(saveError)console.error('Playoffs speichern fehlgeschlagen:',saveError);}
+    if(changed){const {error:saveError}=await db.from('tournament_state').upsert({id:1,state:data});if(saveError)console.error('Playoffs speichern fehlgeschlagen:',saveError);}
     if(st)st.textContent='Live-Verbindung aktiv';
   }catch(err){console.error('Live-Laden fehlgeschlagen:',err);if(st)st.textContent='Fehler beim Laden: '+(err.message||err.code||'unbekannter Fehler');}
 }
