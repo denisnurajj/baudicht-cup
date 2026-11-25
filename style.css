@@ -41,3 +41,6 @@ header .brand .header-baudicht-logo{clip-path:inset(5% 2.5% 5% 2.5%);background:
 
 /* Crop the logo's white canvas margin consistently in both placements */
 header .brand{overflow:hidden!important;max-width:min(600px,96vw)!important;margin:0 auto!important}header .brand .header-baudicht-logo{clip-path:inset(9% 3% 9% 3%)!important;transform:scale(1.12)!important;width:min(540px,92vw)!important;max-height:210px!important;} .sponsor-grid .main-sponsor{overflow:hidden!important}.sponsor-grid .main-sponsor img{clip-path:inset(9% 3% 9% 3%)!important;transform:scale(1.12)!important;max-width:92%!important;max-height:115px!important;}
+
+/* Use the same correct original Baudicht asset for the sponsor tile */
+.sponsor-grid .main-sponsor img{clip-path:inset(9% 3% 9% 3%)!important;transform:scale(1.12)!important;}
