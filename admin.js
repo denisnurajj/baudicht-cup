@@ -40,15 +40,24 @@ async function gate(){
 }
 
 document.getElementById('loginbtn').onclick=async()=>{
+ loginmsg.textContent='Anmeldung wird geprüft…';
  const {error}=await B.db.auth.signInWithPassword({
-  email:email.value,
+  email:email.value.trim(),
   password:pw.value
  });
  if(error){
-  loginmsg.textContent='Login fehlgeschlagen: '+error.message;
+  loginmsg.textContent='Login fehlgeschlagen ('+(error.code||error.status||'')+'): '+error.message;
   return;
  }
  await gate();
+};
+
+document.getElementById('resetbtn').onclick=async()=>{
+ const e=email.value.trim();
+ if(!e){loginmsg.textContent='Bitte zuerst die E-Mail-Adresse eingeben.';return;}
+ loginmsg.textContent='Reset-Mail wird angefordert…';
+ const {error}=await B.db.auth.resetPasswordForEmail(e,{redirectTo:window.location.origin+'/baudicht-cup/admin.html'});
+ loginmsg.textContent=error?'Reset fehlgeschlagen: '+error.message:'Reset-Anfrage gesendet. Bitte Posteingang prüfen (falls das Konto existiert).';
 };
 
 logout.onclick=async()=>{
