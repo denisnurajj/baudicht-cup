@@ -1,7 +1,13 @@
 
 (()=>{
 let B=window.BC;
-if(!B||!B.db)return;
+if(!B||!B.db){
+ const msg=document.getElementById('loginmsg');
+ const btn=document.getElementById('loginbtn');
+ if(msg)msg.textContent='Technischer Fehler: Supabase wurde nicht geladen. Bitte Seite neu laden.';
+ if(btn)btn.onclick=()=>{if(msg)msg.textContent='Verbindung fehlt: config.js oder Supabase-Library konnte nicht geladen werden.';};
+ return;
+}
 
 const login=document.getElementById('login');
 const admin=document.getElementById('admin');
