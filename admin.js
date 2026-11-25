@@ -17,6 +17,7 @@ async function gate(){
  if(session){
   const {data:ok,error}=await B.db.rpc('is_baudicht_admin');
   if(!error&&ok){
+   loginmsg.textContent='';
    login.classList.add('hidden');
    admin.classList.remove('hidden');
    logout.classList.remove('hidden');
@@ -24,6 +25,9 @@ async function gate(){
    draw();
    return;
   }
+  loginmsg.textContent=error?'Admin-Prüfung fehlgeschlagen: '+error.message:'Login erfolgreich, aber dieses Konto ist nicht als Admin freigeschaltet.';
+ } else {
+  loginmsg.textContent='Bitte mit deinem Admin-Konto anmelden.';
  }
  login.classList.remove('hidden');
  admin.classList.add('hidden');
