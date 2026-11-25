@@ -108,7 +108,8 @@ function namedMatch(h,a){
 }
 
 function advance(){
-  let p=data.playoffs||{};
+  let p=data.playoffs;
+  if(!p||Array.isArray(p)||typeof p!=='object'){p={};data.playoffs=p;}
 
   // Playoff 9–24 nach Abschluss aller Ligaspiele
   if(allDone(data.matches)&&!p.playin){
@@ -196,7 +197,7 @@ window.BC.esc=esc;
 window.BC.save=async()=>{
   data=window.BC.data;
   advance();
-  const {error}=await db.from('tournament_state').upsert({id:1,payload:data});
+  const {error}=await db.from('tournament_state').upsert({id:1,state:data});
   if(error)throw error;
   render();
 };
