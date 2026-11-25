@@ -25,3 +25,6 @@ body{background:radial-gradient(ellipse at 50% 0%,#171b20 0%,#090909 52%,#050505
 .sponsor-grid .sponsor-card:nth-child(2),.sponsor-grid .sponsor-card:nth-child(3),.sponsor-grid .sponsor-card:nth-child(4),.sponsor-grid .sponsor-card:nth-child(6),.sponsor-grid .sponsor-card:nth-child(7),.sponsor-grid .sponsor-card:nth-child(8){background:#fff!important}
 .sponsor-grid .sponsor-card:nth-child(5){background:#3035a5!important}
 .sponsor-grid .sponsor-card:nth-child(9){background:#123d20!important;border-color:#123d20!important;color:#d1b887!important}.sponsor-grid .sponsor-card:nth-child(9) strong,.sponsor-grid .sponsor-card:nth-child(9) small{color:#d1b887!important}
+
+/* Header: use uploaded original Baudicht logo */
+header .brand{color:inherit!important;font-size:inherit!important;letter-spacing:normal!important;line-height:normal!important}header .brand .header-baudicht-logo{display:block!important;width:min(460px,88vw)!important;max-height:180px!important;height:auto!important;object-fit:contain!important;margin:0 auto!important}header .brand .header-cup{display:block!important;color:#ffeb00!important;font-size:clamp(20px,3vw,30px)!important;font-weight:900!important;letter-spacing:6px!important;margin-top:8px!important}
