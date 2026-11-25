@@ -19,3 +19,9 @@ body{background:radial-gradient(ellipse at 50% 0%,#171b20 0%,#090909 52%,#050505
 
 /* cache bust + sponsor section correction */
 .sponsors{background:linear-gradient(180deg,#15191e 0%,#0b0d10 100%)!important;border:1px solid #30363d!important;border-radius:14px!important}.sponsor-grid .main-sponsor{grid-column:1/-1!important;background:#111!important;border:1px solid #ffeb00!important}.sponsor-grid .sponsor-card:not(.main-sponsor){background:#f4f4f4!important;border-radius:10px!important}.sponsor-grid .sponsor-text{background:#f4f4f4!important}.sponsor-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}@media(max-width:650px){.sponsor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Sponsor brand backgrounds */
+.sponsor-grid .main-sponsor{background:#075580!important;border-color:#075580!important;box-shadow:0 5px 18px rgba(0,0,0,.28)!important}.sponsor-grid .main-sponsor img{max-width:92%!important;max-height:112px!important;object-fit:contain!important}
+.sponsor-grid .sponsor-card:nth-child(2),.sponsor-grid .sponsor-card:nth-child(3),.sponsor-grid .sponsor-card:nth-child(4),.sponsor-grid .sponsor-card:nth-child(6),.sponsor-grid .sponsor-card:nth-child(7),.sponsor-grid .sponsor-card:nth-child(8){background:#fff!important}
+.sponsor-grid .sponsor-card:nth-child(5){background:#3035a5!important}
+.sponsor-grid .sponsor-card:nth-child(9){background:#123d20!important;border-color:#123d20!important;color:#d1b887!important}.sponsor-grid .sponsor-card:nth-child(9) strong,.sponsor-grid .sponsor-card:nth-child(9) small{color:#d1b887!important}
