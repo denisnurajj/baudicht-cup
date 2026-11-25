@@ -28,3 +28,6 @@ body{background:radial-gradient(ellipse at 50% 0%,#171b20 0%,#090909 52%,#050505
 
 /* Header: use uploaded original Baudicht logo */
 header .brand{color:inherit!important;font-size:inherit!important;letter-spacing:normal!important;line-height:normal!important}header .brand .header-baudicht-logo{display:block!important;width:min(460px,88vw)!important;max-height:180px!important;height:auto!important;object-fit:contain!important;margin:0 auto!important}header .brand .header-cup{display:block!important;color:#ffeb00!important;font-size:clamp(20px,3vw,30px)!important;font-weight:900!important;letter-spacing:6px!important;margin-top:8px!important}
+
+/* Header logo modest enlargement */
+header .brand .header-baudicht-logo{width:min(540px,92vw)!important;max-height:210px!important;height:auto!important;object-fit:contain!important;background:transparent!important;border:0!important;}
