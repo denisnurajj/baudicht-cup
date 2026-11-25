@@ -1,0 +1,39 @@
+BAUDICHT CUP – ONLINE SETUP (Netlify + Supabase)
+
+FILES
+- index.html: spectator page (root link)
+- admin.html: separate admin page (/admin.html)
+- SQL_SETUP.sql: secure database policies
+- config.js: paste Supabase project URL + anon key
+
+1) CREATE SUPABASE PROJECT
+Go to https://supabase.com and create a project. Keep the database password somewhere safe.
+
+2) DATABASE SETUP
+In Supabase, open SQL Editor, New query, paste the entire SQL_SETUP.sql and Run.
+
+3) CREATE ADMIN LOGIN
+In Supabase: Authentication > Users > Add user. Enter the organizer email and a strong password. Confirm the user if prompted.
+Copy that user's UUID. Then in SQL Editor run (replace UUID):
+  insert into public.baudicht_admins(user_id) values ('YOUR-USER-UUID');
+This gives that account admin privileges. Only accounts in this table can edit tournament data.
+
+4) CONFIGURE WEBSITE
+Supabase > Project Settings > API. Copy Project URL and anon/public key (NOT the secret/service-role key).
+Open config.js in this folder and replace the two placeholders.
+
+5) ENABLE REALTIME
+Supabase > Database > Replication/Realtime. Enable realtime for public.baudicht_state.
+
+6) DEPLOY TO NETLIFY
+Upload the ENTIRE contents of this folder (index.html, admin.html, app.js, admin.js, config.js, style.css) to Netlify. Do not upload the zip itself into an already-running site as a nested folder; upload the extracted files/folder.
+Set Netlify project visibility to Public so spectators can view index.html. The admin editing is protected by Supabase login + database policies, not by hiding the admin page.
+
+LINKS
+Spectator: your Netlify site URL
+Admin: your Netlify site URL/admin.html
+
+IMPORTANT
+- Public visitors can read the tournament state, but only a registered admin can write it.
+- Do not expose Supabase service-role key.
+- This starter generates a 48-match random schedule (4 matches/team, no repeat pair) and standings. Playoff bracket generation is intentionally not activated yet until the exact interpretation of the 9–24 format is confirmed.
