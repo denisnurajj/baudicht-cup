@@ -108,6 +108,7 @@ function namedMatch(h,a){
 }
 
 function advance(){
+  let changed=false;
   let p=data.playoffs;
   if(!p||Array.isArray(p)||typeof p!=='object'){p={};data.playoffs=p;}
 
@@ -119,6 +120,7 @@ function advance(){
       p.playin.push(namedMatch(rank[i],rank[23-(i-8)]));
     }
     data.playoffs=p;
+    changed=true;
   }
 
   // Achtelfinale: Top 8 plus Playoff-Sieger
@@ -129,6 +131,7 @@ function advance(){
       p.r16=[];
       for(let i=0;i<8;i++)p.r16.push(namedMatch(rank[i],wins[7-i]));
       data.playoffs=p;
+      changed=true;
     }
   }
 
@@ -143,6 +146,7 @@ function advance(){
         namedMatch(w[6],w[7])
       ];
       data.playoffs=p;
+      changed=true;
     }
   }
 
@@ -152,6 +156,7 @@ function advance(){
     if(w.every(x=>x!==null)){
       p.sf=[namedMatch(w[0],w[1]),namedMatch(w[2],w[3])];
       data.playoffs=p;
+      changed=true;
     }
   }
 
@@ -161,8 +166,10 @@ function advance(){
     if(w.every(x=>x!==null)){
       p.f=[namedMatch(w[0],w[1])];
       data.playoffs=p;
+      changed=true;
     }
   }
+  return changed;
 }
 
 function render(){
