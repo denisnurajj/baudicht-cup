@@ -99,7 +99,12 @@ function allDone(ms){
 }
 
 function winner(m){
-  if(!m||m.hs==null||m.as==null||m.hs===m.as)return null;
+  if(!m||m.hs==null||m.as==null)return null;
+  if(m.hs===m.as){
+    if(m.winnerOverride==='h')return m.h;
+    if(m.winnerOverride==='a')return m.a;
+    return null;
+  }
   return m.hs>m.as?m.h:m.a;
 }
 
