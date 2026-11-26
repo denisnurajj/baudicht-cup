@@ -206,6 +206,7 @@ window.BC.render=render;
 window.BC.standings=standings;
 window.BC.esc=esc;
 
+window.BC.advance=advance;
 window.BC.save=async()=>{
   data=window.BC.data;
   advance();
