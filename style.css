@@ -87,11 +87,3 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #standings{position:relative;isolation:isolate;overflow:hidden;background-color:#0b1b3d!important;}
 #standings::before{content:'';position:absolute;inset:0;background-image:url('cl-bg.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;opacity:.075;pointer-events:none;z-index:0;}
 #standings>*{position:relative;z-index:1;}
-
-/* Fix: let the Champions League background show through standings cells */
-#standings{background-image:linear-gradient(rgba(7,18,43,.80),rgba(7,18,43,.80)),url('cl-bg.jpg?v=1')!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
-#standings table{background:transparent!important;}
-#standings tbody tr{background-color:rgba(12,30,58,.58)!important;}
-#standings tbody tr:nth-child(-n+8){background-color:rgba(35,145,85,.18)!important;}
-#standings tbody tr:nth-child(n+10):nth-child(-n+25){background-color:rgba(255,220,70,.12)!important;}
-#standings::before{display:none!important;}
