@@ -90,3 +90,8 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 
 /* Team badge logos */
 .team-cell{display:flex;align-items:center;gap:8px;justify-content:flex-end}.match>div:last-of-type.team-cell{justify-content:flex-start}.team-logo{width:28px;height:28px;object-fit:contain;flex:0 0 28px;vertical-align:middle}.team-cell img.team-logo{display:inline-block}.logo-upload-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px;border-bottom:1px solid #304565}.logo-upload-row span{flex:1;min-width:150px}.team-logo-preview{width:42px;height:42px;object-fit:contain;background:#fff;border-radius:5px;padding:3px}.logo-upload-row input[type=file]{max-width:100%}#standings .team-cell{justify-content:flex-start}@media(max-width:600px){.team-logo{width:23px;height:23px;flex-basis:23px}.logo-upload-row{gap:5px}}
+
+/* Next/current match: larger team badges, smaller names */
+.next-teams>span .team-logo{width:54px!important;height:54px!important;flex:0 0 54px!important;object-fit:contain!important;}
+.next-teams>span>span{font-size:clamp(17px,2.6vw,25px)!important;line-height:1.15!important;font-weight:800!important;}
+@media(max-width:600px){.next-teams>span .team-logo{width:42px!important;height:42px!important;flex-basis:42px!important}.next-teams>span>span{font-size:16px!important}}
