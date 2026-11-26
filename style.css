@@ -155,3 +155,24 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #sponsorRotationTrack .rotation-card.rotation-partner-7{background:#fff!important;color:#172c63!important;}
 #sponsorRotationTrack .rotation-card.rotation-partner-8{background:#123d20!important;color:#d1b887!important;}
 #sponsorRotationTrack .rotation-card img{background:transparent!important;}
+
+/* Individually tuned rotating sponsor banner sizes and backgrounds */
+#sponsorRotationTrack .rotation-partner-1 {background:#fff!important;}
+#sponsorRotationTrack .rotation-partner-2 {background:#fff!important;}
+#sponsorRotationTrack .rotation-partner-3 {background:#fff!important;}
+#sponsorRotationTrack .rotation-partner-4 {background:#3035a5!important;}
+#sponsorRotationTrack .rotation-partner-5 {background:#fff!important;}
+#sponsorRotationTrack .rotation-partner-6 {background:#fff!important;}
+#sponsorRotationTrack .rotation-partner-7 {background:#fff!important;}
+#sponsorRotationTrack .rotation-partner-8 {background:#123d20!important;}
+#sponsorRotationTrack .rotation-partner-1 img {max-width:88%!important;max-height:110px!important;}
+#sponsorRotationTrack .rotation-partner-2 img {max-width:98%!important;max-height:155px!important;}
+#sponsorRotationTrack .rotation-partner-3 img {max-width:75%!important;max-height:135px!important;}
+#sponsorRotationTrack .rotation-partner-4 img {max-width:72%!important;max-height:145px!important;}
+#sponsorRotationTrack .rotation-partner-5 img {max-width:94%!important;max-height:145px!important;}
+#sponsorRotationTrack .rotation-partner-6 img {max-width:76%!important;max-height:140px!important;}
+#sponsorRotationTrack .rotation-partner-7 {color:#17356a!important;}
+#sponsorRotationTrack .rotation-partner-7 strong {font-size:clamp(25px,4vw,44px)!important;}
+#sponsorRotationTrack .rotation-partner-7 small {font-size:clamp(15px,2vw,22px)!important;}
+#sponsorRotationTrack .rotation-partner-8 strong {font-size:clamp(35px,5vw,52px)!important;color:#d1b887!important;}
+#sponsorRotationTrack .rotation-partner-8 small {font-size:clamp(16px,2vw,23px)!important;color:#d1b887!important;}
