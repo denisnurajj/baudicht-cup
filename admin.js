@@ -117,7 +117,7 @@ function draw(){
    catch(e){status('Speichern fehlgeschlagen: '+e.message);}
   };
  });
- document.querySelectorAll('#adminmatches input').forEach(x=>{
+ document.querySelectorAll('#adminmatches input[type="number"]').forEach(x=>{
   x.onchange=async()=>{
    let round=x.dataset.round;
    let i=Number(x.dataset.i);
