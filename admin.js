@@ -139,6 +139,15 @@ function status(t){
  document.getElementById('adminstatus').textContent=t;
 }
 
+document.getElementById('advanceko').onclick=async()=>{
+ try{B.advance();await B.save();draw();status("KO-Runden geprüft und aktualisiert.");}catch(e){status("Aktualisierung fehlgeschlagen: "+e.message);}
+};
+document.getElementById('resetresults').onclick=async()=>{
+ if(!confirm("ALLE gespeicherten Resultate und KO-Runden löschen? Der Spielplan und die Teamnamen bleiben erhalten."))return;
+ B.data.matches.forEach(m=>{m.hs=null;m.as=null;});
+ B.data.playoffs={};
+ try{await B.save();draw();status("Resultate und KO-Runden zurückgesetzt. Spielplan und Teams bleiben erhalten.");}catch(e){status("Reset fehlgeschlagen: "+e.message);}
+};
 document.getElementById('refresh').onclick=async()=>{
  await B.load();
  draw();
