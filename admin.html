@@ -31,7 +31,7 @@
       matchesEl.querySelectorAll('input').forEach(x=>x.onchange=async()=>{const m=B.data.matches[+x.dataset.match];m[x.dataset.side]=x.value===''?null:+x.value;await B.save();const st=document.getElementById('adminstatus');if(st)st.textContent='Resultat gespeichert ✓';});
     }
   };
-  document.getElementById('saveteams').onclick=async function(){const B=window.BC,st=document.getElementById('adminstatus');const n=document.getElementById('teams').value.split('\n').map(x=>x.trim()).filter(Boolean);if(n.length!==24){if(st)st.textContent='Bitte genau 24 Mannschaften (eine pro Zeile) eingeben.';return;}B.data.teams=n;try{await B.save();if(st)st.textContent='Teamnamen gespeichert ✓';window.__renderAdminFallback();}catch(e){if(st)st.textContent='Speicherfehler: '+e.message;}};
+  document.getElementById('saveteams').onclick=async function(){const B=window.BC,st=document.getElementById('adminstatus'),field=document.getElementById('teams');const n=field.value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);if(n.length!==24){if(st)st.textContent='Bitte genau 24 Mannschaftsnamen (eine pro Zeile) eingeben.';return;}const old=B.data.teams.slice();B.data.teams=n;try{if(st)st.textContent='Teamnamen werden gespeichert…';await B.save();if(st)st.textContent='Teamnamen gespeichert ✓';if(window.__baudichtAdminDraw)window.__baudichtAdminDraw();else window.__renderAdminFallback();}catch(e){B.data.teams=old;field.value=old.join('\n');if(st)st.textContent='Speicherfehler: '+e.message;}};
   window.__adminLoginFallback=async function(){
     const msg=document.getElementById('loginmsg'),em=document.getElementById('email'),pw=document.getElementById('pw'),btn=document.getElementById('loginbtn');
     if(btn)btn.disabled=true;
