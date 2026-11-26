@@ -87,4 +87,3 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #standings{position:relative;isolation:isolate;overflow:hidden;background-color:#0b1b3d!important;}
 #standings::before{content:'';position:absolute;inset:0;background-image:url('cl-bg.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;opacity:.075;pointer-events:none;z-index:0;}
 #standings>*{position:relative;z-index:1;}
-\n.team-cell{display:flex;align-items:center;justify-content:center;gap:8px}.team-logo,.team-logo-preview{width:30px;height:30px;object-fit:contain;vertical-align:middle}.logo-upload-row{display:flex;align-items:center;gap:10px;padding:8px;border-bottom:1px solid #333;flex-wrap:wrap}.logo-upload-row span{min-width:180px}\n
