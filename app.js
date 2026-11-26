@@ -199,8 +199,26 @@ if(db){
     event:'*',schema:'public',table:'tournament_state'
   },load).subscribe();
 }
-
-load();
+// Realtime fallback: public page also checks Supabase periodically.
+let lastStateJson='';
+async function pollLive(){
+  if(!db)return;
+  try{
+    const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();
+    if(error)throw error;
+    const serialized=JSON.stringify(d?.state||{});
+    if(serialized!==lastStateJson){
+      lastStateJson=serialized;
+      if(d?.state)data=d.state;
+      data.teams=data.teams||fallbackTeams;data.matches=data.matches||[];
+      if(!data.playoffs||Array.isArray(data.playoffs)||typeof data.playoffs!=='object')data.playoffs=makeSkeleton();
+      for(const k of ['playin','r16','qf','sf','f'])if(!data.playoffs[k]?.length)data.playoffs[k]=makeSkeleton()[k];
+      window.BC.data=data;render();
+    }
+  }catch(e){console.warn('Live polling:',e);}
+}
+load().then(pollLive);
+setInterval(pollLive,3000);
 
 window.BC.load=load;
 window.BC.render=render;
