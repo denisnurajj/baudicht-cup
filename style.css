@@ -70,3 +70,6 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 
 /* Qualification separator after top 8 */
 #standings tr.qualification-divider td{border-top:3px solid #ffffff!important;border-bottom:0!important;background:transparent!important;color:#9ec8ff!important;text-align:center!important;font-weight:700!important;letter-spacing:1px!important;padding:4px 8px!important;font-size:12px!important}
+
+/* Highlight playoff-qualified top 8 */
+#standings tbody tr:nth-child(-n+8){background:rgba(35,145,85,.16)!important}#standings tbody tr:nth-child(-n+8) td:first-child{border-left:3px solid #35a66a!important}
