@@ -1,5 +1,5 @@
 (()=>{
-const B=window.BC;if(!B||!B.db){const m=document.getElementById('loginmsg');if(m)m.textContent='Supabase fehlt – config.js prüfen';return;}
+const B=window.BC;const loginmsgEarly=document.getElementById('loginmsg');if(!B||!B.db){if(loginmsgEarly)loginmsgEarly.textContent='Verbindung wird initialisiert oder Supabase-Script wurde blockiert. Seite neu laden.';const lb=document.getElementById('loginbtn');if(lb)lb.onclick=()=>{if(loginmsgEarly)loginmsgEarly.textContent='Keine Supabase-Verbindung: Bitte Seite neu laden (Cmd+Shift+R) oder CDN/Config prüfen.';};return;}
 const login=document.getElementById('login'),admin=document.getElementById('admin'),email=document.getElementById('email'),pw=document.getElementById('pw'),loginmsg=document.getElementById('loginmsg'),logout=document.getElementById('logoutbtn');
 let gating=false;
 function status(t){const e=document.getElementById('adminstatus');if(e)e.textContent=t;}
