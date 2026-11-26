@@ -64,3 +64,6 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 
 /* Current match + next teams ready */
 .current-game{padding-bottom:16px;border-bottom:1px solid rgba(160,200,255,.3);margin-bottom:16px}.ready-divider{font-weight:900;letter-spacing:2px;color:#9ec8ff;font-size:13px;margin:10px 0}.next-match .current-game .next-label{color:#fff}.next-match .ready-divider{color:#ffd76a}
+
+/* Keep VS aligned between team names */
+.next-teams{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;align-items:center!important}.next-teams span:first-child{text-align:right!important}.next-teams span:last-child{text-align:left!important}.next-teams strong{white-space:nowrap!important;justify-self:center!important}
