@@ -67,3 +67,6 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 
 /* Keep VS aligned between team names */
 .next-teams{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;align-items:center!important}.next-teams span:first-child{text-align:right!important}.next-teams span:last-child{text-align:left!important}.next-teams strong{white-space:nowrap!important;justify-self:center!important}
+
+/* Qualification separator after top 8 */
+#standings tr.qualification-divider td{border-top:5px solid #f5c451!important;border-bottom:2px solid #f5c451!important;background:#153f8b!important;color:#ffe08a!important;text-align:center!important;font-weight:900!important;letter-spacing:2px!important;padding:12px 8px!important}
