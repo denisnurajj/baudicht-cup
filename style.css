@@ -143,3 +143,15 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 
 /* Refined swipe transition sizing */
 #sponsorRotationTrack .rotation-card img{max-width:100%!important;max-height:140px!important;object-fit:contain!important;transform:none!important;}
+
+
+/* Sponsor rotation: each slide fills the entire banner with its brand background */
+#sponsorRotationTrack .rotation-card.rotation-partner-1{background:#fff!important;color:#111!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-2{background:#fff!important;color:#111!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-3{background:#fff!important;color:#111!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-4{background:#3035a5!important;color:#fff!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-5{background:#fff!important;color:#111!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-6{background:#fff!important;color:#111!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-7{background:#fff!important;color:#172c63!important;}
+#sponsorRotationTrack .rotation-card.rotation-partner-8{background:#123d20!important;color:#d1b887!important;}
+#sponsorRotationTrack .rotation-card img{background:transparent!important;}
