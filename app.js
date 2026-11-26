@@ -24,5 +24,5 @@ document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.query
 async function poll(){if(!db||adminPage||loading)return;try{const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();if(error)throw error;let fresh=normalize(d?.state);let json=JSON.stringify(fresh);if(json!==lastStateJson){lastStateJson=json;data=fresh;window.BC.data=data;render();}}catch(e){console.warn('Live-Abfrage fehlgeschlagen:',e);const st=document.getElementById('status');if(st)st.textContent='Live-Verbindung unterbrochen – erneuter Versuch läuft';}}
 load().then(()=>{if(!adminPage)poll();});if(!adminPage)setInterval(poll,2500);
 window.BC.load=load;window.BC.render=render;window.BC.standings=standings;window.BC.esc=esc;window.BC.advance=()=>false;
-window.BC.save=async()=>{if(!db)throw new Error('Supabase nicht verbunden');data=normalize(window.BC.data||data);window.BC.data=data;const {error}=await db.from('tournament_state').upsert({id:1,state:data}).select('id');if(error)throw error;lastStateJson=JSON.stringify(data);render();return true;};
+window.BC.save=async()=>{if(!db)throw new Error('Supabase nicht verbunden');data=normalize(window.BC.data||data);window.BC.data=data;const {error}=await db.from('tournament_state').upsert({id:1,state:data});if(error)throw error;lastStateJson=JSON.stringify(data);render();return true;};
 })();
