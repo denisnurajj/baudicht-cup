@@ -132,3 +132,11 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 .sponsor-rotation .rotation-card.sponsor-text{font-size:clamp(24px,4vw,42px)!important;}
 .sponsor-rotation .rotation-card.sponsor-text small{font-size:clamp(12px,2vw,18px)!important;}
 @media(max-width:650px){.sponsor-rotation{height:135px!important;min-height:135px!important}}
+
+/* Sponsor carousel: full-color sponsor backgrounds and larger proportional logos */
+#sponsorRotationTrack .rotation-card{background:transparent!important;}
+#sponsorRotationTrack .rotation-partner-1,#sponsorRotationTrack .rotation-partner-2,#sponsorRotationTrack .rotation-partner-3,#sponsorRotationTrack .rotation-partner-5,#sponsorRotationTrack .rotation-partner-6,#sponsorRotationTrack .rotation-partner-7{background:#fff!important;color:#111!important;}
+#sponsorRotationTrack .rotation-partner-4{background:#3035a5!important;color:#fff!important;}
+#sponsorRotationTrack .rotation-partner-8{background:#123d20!important;color:#d1b887!important;}
+#sponsorRotationTrack .rotation-card img{max-width:98%!important;max-height:150px!important;width:auto!important;height:auto!important;object-fit:contain!important;transform:scale(1.08);}
+#sponsorRotationTrack .rotation-card.rotation-partner-8 strong,#sponsorRotationTrack .rotation-card.rotation-partner-8 small{color:#d1b887!important;}
