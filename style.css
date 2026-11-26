@@ -176,3 +176,9 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #sponsorRotationTrack .rotation-partner-7 small {font-size:clamp(15px,2vw,22px)!important;}
 #sponsorRotationTrack .rotation-partner-8 strong {font-size:clamp(35px,5vw,52px)!important;color:#d1b887!important;}
 #sponsorRotationTrack .rotation-partner-8 small {font-size:clamp(16px,2vw,23px)!important;color:#d1b887!important;}
+
+/* Override retained sponsor-card background layers */
+section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-1,section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-2,section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-3,section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-5,section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-6,section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-7{background:#fff!important;background-color:#fff!important;}
+section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-4{background:#3035a5!important;background-color:#3035a5!important;}
+section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-8{background:#123d20!important;background-color:#123d20!important;}
+section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card{box-shadow:none!important;border:0!important;}
