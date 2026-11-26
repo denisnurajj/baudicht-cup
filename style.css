@@ -140,3 +140,6 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #sponsorRotationTrack .rotation-partner-8{background:#123d20!important;color:#d1b887!important;}
 #sponsorRotationTrack .rotation-card img{max-width:98%!important;max-height:150px!important;width:auto!important;height:auto!important;object-fit:contain!important;transform:scale(1.08);}
 #sponsorRotationTrack .rotation-card.rotation-partner-8 strong,#sponsorRotationTrack .rotation-card.rotation-partner-8 small{color:#d1b887!important;}
+
+/* Refined swipe transition sizing */
+#sponsorRotationTrack .rotation-card img{max-width:100%!important;max-height:140px!important;object-fit:contain!important;transform:none!important;}
