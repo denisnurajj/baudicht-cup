@@ -1,236 +1,28 @@
 (()=>{
+'use strict';
 const cfg=window.BAUDICHT_CONFIG||{};
-const ready=cfg.SUPABASE_URL?.startsWith('https://')&&cfg.SUPABASE_ANON_KEY?.length>20&&window.supabase;
+const ready=!!(cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY&&window.supabase);
 const db=ready?window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY):null;
-const fallbackTeams=Array.from({length:24},(_,i)=>`Team ${i+1}`);
-let data={teams:fallbackTeams,matches:[],playoffs:{}};
+const fallbackTeams=Array.from({length:24},(_,i)=>'Team '+(i+1));
+const skeleton=()=>({playin:Array.from({length:8},(_,i)=>({h:'Team Playoff '+(i*2+1),a:'Team Playoff '+(i*2+2),hs:null,as:null})),r16:Array.from({length:8},(_,i)=>({h:'Sieger Playoff '+(i+1),a:'Top 8 Team '+(i+1),hs:null,as:null})),qf:Array.from({length:4},(_,i)=>({h:'Sieger AF '+(i*2+1),a:'Sieger AF '+(i*2+2),hs:null,as:null})),sf:Array.from({length:2},(_,i)=>({h:'Sieger VF '+(i*2+1),a:'Sieger VF '+(i*2+2),hs:null,as:null})),f:[{h:'Sieger HF 1',a:'Sieger HF 2',hs:null,as:null}]});
+let data={teams:fallbackTeams,matches:[],playoffs:skeleton()};
 window.BC={db,ready,data};
-
-async function load(){
-  const st=document.getElementById('status');
-  try{
-    if(!db){if(st)st.textContent='Supabase-Verbindung fehlt';render();return;}
-    const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();
-    if(error)throw error;
-    if(d?.state)data=d.state;
-    data.teams=data.teams||fallbackTeams;data.matches=data.matches||[];
-    if(!data.playoffs||Array.isArray(data.playoffs)||typeof data.playoffs!=='object')data.playoffs=makeSkeleton();
-    for(const k of ['playin','r16','qf','sf','f'])if(!data.playoffs[k]?.length)data.playoffs[k]=makeSkeleton()[k];
-    window.BC.data=data;
-    const changed=advance();render();
-    if(changed){const {error:saveError}=await db.from('tournament_state').upsert({id:1,state:data});if(saveError)console.error('Playoffs speichern fehlgeschlagen:',saveError);}
-    if(st)st.textContent='Live-Verbindung aktiv';
-  }catch(err){console.error('Live-Laden fehlgeschlagen:',err);if(st)st.textContent='Fehler beim Laden: '+(err.message||err.code||'unbekannter Fehler');}
-}
-
-function standings(){
-  let s=data.teams.map((t,i)=>({idx:i,team:t,mp:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}));
-  data.matches.forEach(m=>{
-    if(m.hs==null||m.as==null)return;
-    let a=s[m.h],b=s[m.a];
-    if(!a||!b)return;
-    a.mp++;b.mp++;
-    a.gf+=m.hs;a.ga+=m.as;
-    b.gf+=m.as;b.ga+=m.hs;
-    if(m.hs>m.as){a.w++;b.l++;a.pts+=3}
-    else if(m.hs<m.as){b.w++;a.l++;b.pts+=3}
-    else{a.d++;b.d++;a.pts++;b.pts++}
-  });
-  return s.sort((a,b)=>
-    b.pts-a.pts||
-    (b.gf-b.ga)-(a.gf-a.ga)||
-    b.gf-a.gf||
-    a.team.localeCompare(b.team)
-  );
-}
-
-function esc(s){
-  return String(s).replace(/[&<>"']/g,c=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[c]));
-}
-
-function teamName(i){
-  return data.teams[i]||`Team ${i+1}`;
-}
-
-function matchHtml(m){
-  const h=typeof m.h==='string'?m.h:teamName(m.h);
-  const a=typeof m.a==='string'?m.a:teamName(m.a);
-  return `<div class="match">
-    <div class="home">${esc(m.hname||h)}</div>
-    <div class="score">${m.hs==null?'–':m.hs} : ${m.as==null?'–':m.as}</div>
-    <div>${esc(m.aname||a)}</div>
-  </div>`;
-}
-
-function renderTable(){
-  let el=document.getElementById('standings');
-  if(!el)return;
-  let s=standings();
-  el.innerHTML=`<table><thead><tr>
-  <th>#</th><th>Team</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>TD</th><th>Pkt</th>
-  </tr></thead><tbody>${s.map((x,i)=>`<tr>
-  <td>${i+1}</td><td>${esc(x.team)}</td><td>${x.mp}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td>${x.gf-x.ga}</td><td><b>${x.pts}</b></td>
-  </tr>`).join('')}</tbody></table>`;
-}
-
-function renderMatches(){
-  let el=document.getElementById('matchlist');
-  if(el)el.innerHTML=data.matches.map(matchHtml).join('')||'Noch kein Spielplan.';
-}
-
-function roundLabel(k){
-  return {playin:'Playoff (Rang 9–24)',r16:'Achtelfinale',qf:'Viertelfinale',sf:'Halbfinale',f:'Finale'}[k]||k;
-}
-
-function renderPlayoffs(){
-  let el=document.getElementById('playofflist');
-  if(!el)return;
-  let p=data.playoffs;
-  if(!p||Array.isArray(p)||typeof p!=='object'){p=makeSkeleton();data.playoffs=p;}
-  let keys=['playin','r16','qf','sf','f'];
-  el.innerHTML=keys.map(k=>`<h3>${roundLabel(k)}</h3>${(p[k]||[]).map(matchHtml).join('')}`).join('');
-}
-
-function allDone(ms){
-  return ms?.length>0&&ms.every(m=>m.hs!=null&&m.as!=null);
-}
-
-function winner(m){
-  if(!m||m.hs==null||m.as==null)return null;
-  if(m.hs===m.as){
-    if(m.winnerOverride==='h')return m.h;
-    if(m.winnerOverride==='a')return m.a;
-    return null;
-  }
-  return m.hs>m.as?m.h:m.a;
-}
-
-function namedMatch(h,a){
-  return {h,a,hs:null,as:null};
-}
-function makeSkeleton(){return {playin:Array.from({length:8},(_,i)=>namedMatch('Team Playoff '+(i*2+1),'Team Playoff '+(i*2+2))),r16:Array.from({length:8},(_,i)=>namedMatch('Sieger Playoff '+(i+1),'Top 8 Team '+(i+1))),qf:Array.from({length:4},(_,i)=>namedMatch('Sieger AF '+(i*2+1),'Sieger AF '+(i*2+2))),sf:Array.from({length:2},(_,i)=>namedMatch('Sieger VF '+(i*2+1),'Sieger VF '+(i*2+2))),f:[namedMatch('Sieger HF 1','Sieger HF 2')]};}
-
-function advance(){
-  return false;
-  let changed=false;
-  let p=data.playoffs;
-  if(!p||Array.isArray(p)||typeof p!=='object'){p={};data.playoffs=p;}
-
-  // Playoff 9–24 nach Abschluss aller Ligaspiele
-  if(allDone(data.matches)&&(!p.playin||p.playin.length===0)){
-    let rank=standings().map(x=>x.idx);
-    p.playin=[];
-    for(let i=8;i<16;i++){
-      p.playin.push(namedMatch(rank[i],rank[23-(i-8)]));
-    }
-    data.playoffs=p;
-    changed=true;
-  }
-
-  // Achtelfinale: Top 8 plus Playoff-Sieger
-  if(allDone(p.playin)&&(!p.r16||p.r16.length===0)){
-    let rank=standings().map(x=>x.idx);
-    let wins=p.playin.map(winner);
-    if(wins.every(x=>x!==null)){
-      p.r16=[];
-      for(let i=0;i<8;i++)p.r16.push(namedMatch(rank[i],wins[7-i]));
-      data.playoffs=p;
-      changed=true;
-    }
-  }
-
-  // Viertelfinale
-  if(allDone(p.r16)&&(!p.qf||p.qf.length===0)){
-    let w=p.r16.map(winner);
-    if(w.every(x=>x!==null)){
-      p.qf=[
-        namedMatch(w[0],w[1]),
-        namedMatch(w[2],w[3]),
-        namedMatch(w[4],w[5]),
-        namedMatch(w[6],w[7])
-      ];
-      data.playoffs=p;
-      changed=true;
-    }
-  }
-
-  // Halbfinale
-  if(allDone(p.qf)&&(!p.sf||p.sf.length===0)){
-    let w=p.qf.map(winner);
-    if(w.every(x=>x!==null)){
-      p.sf=[namedMatch(w[0],w[1]),namedMatch(w[2],w[3])];
-      data.playoffs=p;
-      changed=true;
-    }
-  }
-
-  // Finale
-  if(allDone(p.sf)&&(!p.f||p.f.length===0)){
-    let w=p.sf.map(winner);
-    if(w.every(x=>x!==null)){
-      p.f=[namedMatch(w[0],w[1])];
-      data.playoffs=p;
-      changed=true;
-    }
-  }
-  return changed;
-}
-
-function render(){
-  advance();
-  renderTable();
-  renderMatches();
-  renderPlayoffs();
-}
-
-document.querySelectorAll('[data-tab]').forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll('[data-tab]').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
-    b.classList.add('active');
-    document.getElementById(b.dataset.tab).classList.remove('hidden');
-  };
-});
-
-if(db){
-  db.channel('baudicht-live').on('postgres_changes',{
-    event:'*',schema:'public',table:'tournament_state'
-  },load).subscribe();
-}
-// Realtime fallback: public page also checks Supabase periodically.
-let lastStateJson='';
-async function pollLive(){
-  if(!db)return;
-  try{
-    const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();
-    if(error)throw error;
-    const serialized=JSON.stringify(d?.state||{});
-    if(serialized!==lastStateJson){
-      lastStateJson=serialized;
-      if(d?.state)data=d.state;
-      data.teams=data.teams||fallbackTeams;data.matches=data.matches||[];
-      if(!data.playoffs||Array.isArray(data.playoffs)||typeof data.playoffs!=='object')data.playoffs=makeSkeleton();
-      for(const k of ['playin','r16','qf','sf','f'])if(!data.playoffs[k]?.length)data.playoffs[k]=makeSkeleton()[k];
-      window.BC.data=data;render();
-    }
-  }catch(e){console.warn('Live polling:',e);}
-}
-load().then(pollLive);
-setInterval(pollLive,3000);
-
-window.BC.load=load;
-window.BC.render=render;
-window.BC.standings=standings;
-window.BC.esc=esc;
-
-window.BC.advance=advance;
-window.BC.save=async()=>{
-  data=window.BC.data;
-  advance();
-  const {error}=await db.from('tournament_state').upsert({id:1,state:data});
-  if(error)throw error;
-  render();
-};
+const adminPage=location.pathname.endsWith('admin.html');
+let loading=false,lastStateJson=null;
+function normalize(s){if(!s||typeof s!=='object')s={};s.teams=Array.isArray(s.teams)&&s.teams.length===24?s.teams:fallbackTeams.slice();s.matches=Array.isArray(s.matches)?s.matches:[];if(!s.playoffs||typeof s.playoffs!=='object'||Array.isArray(s.playoffs))s.playoffs=skeleton();let sk=skeleton();for(let k of Object.keys(sk))if(!Array.isArray(s.playoffs[k])||s.playoffs[k].length===0)s.playoffs[k]=sk[k];return s;}
+async function load(){if(loading)return;loading=true;const st=document.getElementById('status');try{if(!db){if(st)st.textContent='Supabase-Verbindung fehlt';render();return;}const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();if(error)throw error;data=normalize(d?.state);window.BC.data=data;lastStateJson=JSON.stringify(data);render();if(st)st.textContent='Daten geladen';}catch(e){console.error(e);if(st)st.textContent='Live-Laden fehlgeschlagen: '+(e.message||e);render();}finally{loading=false;}}
+function standings(){let s=data.teams.map((t,i)=>({idx:i,team:t,mp:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}));data.matches.forEach(m=>{if(m.hs==null||m.as==null)return;let a=s[m.h],b=s[m.a];if(!a||!b)return;a.mp++;b.mp++;a.gf+=m.hs;a.ga+=m.as;b.gf+=m.as;b.ga+=m.hs;if(m.hs>m.as){a.w++;b.l++;a.pts+=3}else if(m.hs<m.as){b.w++;a.l++;b.pts+=3}else{a.d++;b.d++;a.pts++;b.pts++}});return s.sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf||a.team.localeCompare(b.team));}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function teamName(i){return data.teams[i]||'Team '+(Number(i)+1);}
+function participant(v){return typeof v==='string'?v:teamName(v);}
+function matchHtml(m){let h=participant(m.h),a=participant(m.a);return '<div class="match"><div class="home">'+esc(m.hname||h)+'</div><div class="score">'+(m.hs==null?'–':m.hs)+' : '+(m.as==null?'–':m.as)+'</div><div>'+esc(m.aname||a)+'</div></div>';}
+function renderTable(){let el=document.getElementById('standings');if(!el)return;let s=standings();el.innerHTML='<table><thead><tr><th>#</th><th>Team</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>TD</th><th>Pkt</th></tr></thead><tbody>'+s.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(x.team)+'</td><td>'+x.mp+'</td><td>'+x.w+'</td><td>'+x.d+'</td><td>'+x.l+'</td><td>'+(x.gf-x.ga)+'</td><td><b>'+x.pts+'</b></td></tr>').join('')+'</tbody></table>';}
+function renderMatches(){let el=document.getElementById('matchlist');if(el)el.innerHTML=data.matches.map(matchHtml).join('')||'Noch kein Spielplan.';}
+function renderPlayoffs(){let el=document.getElementById('playofflist');if(!el)return;let p=data.playoffs;let labels={playin:'Playoff (Rang 9–24)',r16:'Achtelfinale',qf:'Viertelfinale',sf:'Halbfinale',f:'Finale'};el.innerHTML=['playin','r16','qf','sf','f'].map(k=>'<h3>'+labels[k]+'</h3>'+((p[k]||[]).map(matchHtml).join('')||'<p>Keine Spiele eingetragen.</p>')).join('');}
+function render(){renderTable();renderMatches();renderPlayoffs();}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));b.classList.add('active');let target=document.getElementById(b.dataset.tab);if(target)target.classList.remove('hidden');});
+async function poll(){if(!db||adminPage||loading)return;try{const {data:d,error}=await db.from('tournament_state').select('state').eq('id',1).single();if(error)throw error;let fresh=normalize(d?.state);let json=JSON.stringify(fresh);if(json!==lastStateJson){lastStateJson=json;data=fresh;window.BC.data=data;render();}}catch(e){console.warn('Live-Abfrage fehlgeschlagen:',e);const st=document.getElementById('status');if(st)st.textContent='Live-Verbindung unterbrochen – erneuter Versuch läuft';}}
+load().then(()=>{if(!adminPage)poll();});if(!adminPage)setInterval(poll,2500);
+window.BC.load=load;window.BC.render=render;window.BC.standings=standings;window.BC.esc=esc;window.BC.advance=()=>false;
+window.BC.save=async()=>{if(!db)throw new Error('Supabase nicht verbunden');data=normalize(window.BC.data||data);window.BC.data=data;const {error}=await db.from('tournament_state').upsert({id:1,state:data}).select('id');if(error)throw error;lastStateJson=JSON.stringify(data);render();return true;};
 })();
