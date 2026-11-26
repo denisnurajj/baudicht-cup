@@ -105,3 +105,7 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #standings .team-cell img.team-logo{width:42px!important;height:42px!important;flex:0 0 42px!important;object-fit:contain!important;background:#fff!important;border-radius:7px!important;padding:4px!important;box-shadow:0 2px 8px rgba(0,0,0,.32)!important;}
 #standings .team-cell{gap:12px!important;}
 @media(max-width:600px){#standings .team-cell img.team-logo{width:34px!important;height:34px!important;flex-basis:34px!important;padding:3px!important}}
+
+/* Slightly more size and sharper rendering for standings badges */
+#standings .team-cell img.team-logo{width:48px!important;height:48px!important;flex-basis:48px!important;padding:3px!important;image-rendering:auto!important;}
+@media(max-width:600px){#standings .team-cell img.team-logo{width:38px!important;height:38px!important;flex-basis:38px!important}}
