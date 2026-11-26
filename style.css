@@ -124,3 +124,11 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 #sponsorRotationTrack .rotation-card.outgoing{animation:partnerOut .8s ease both!important;visibility:visible!important}
 @keyframes partnerIn{from{transform:translateX(110%)!important;opacity:1!important}to{transform:translateX(0)!important;opacity:1!important}}
 @keyframes partnerOut{from{transform:translateX(0)!important;opacity:1!important}to{transform:translateX(-110%)!important;opacity:1!important}}
+
+/* Final sponsor strip sizing */
+.sponsor-rotation{width:100%!important;max-width:none!important;height:150px!important;min-height:150px!important;padding:8px!important;margin:14px auto 0!important;box-sizing:border-box!important;border-radius:12px!important;overflow:hidden!important;background:linear-gradient(130deg,#123f91,#071d50)!important;}
+.sponsor-rotation-track{height:100%!important;min-height:0!important;width:100%!important;}
+.sponsor-rotation .rotation-card{border-radius:12px!important;}
+.sponsor-rotation .rotation-card.sponsor-text{font-size:clamp(24px,4vw,42px)!important;}
+.sponsor-rotation .rotation-card.sponsor-text small{font-size:clamp(12px,2vw,18px)!important;}
+@media(max-width:650px){.sponsor-rotation{height:135px!important;min-height:135px!important}}
