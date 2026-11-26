@@ -182,3 +182,8 @@ section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-part
 section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-4{background:#3035a5!important;background-color:#3035a5!important;}
 section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card.rotation-partner-8{background:#123d20!important;background-color:#123d20!important;}
 section.sponsors #sponsorRotationTrack .sponsor-card.rotation-card{box-shadow:none!important;border:0!important;}
+
+/* Layout adjustment: carousel at former Instagram position, sponsors below with breathing room */
+.instagram-link{display:block;width:max-content;max-width:100%;margin:26px auto 34px!important;}
+#sponsorRotation{margin:0 auto 46px!important;}
+section.sponsors{margin-top:34px!important;}
