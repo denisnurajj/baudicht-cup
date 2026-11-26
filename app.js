@@ -118,7 +118,7 @@ function advance(){
   if(!p||Array.isArray(p)||typeof p!=='object'){p={};data.playoffs=p;}
 
   // Playoff 9–24 nach Abschluss aller Ligaspiele
-  if(allDone(data.matches)&&!p.playin){
+  if(allDone(data.matches)&&(!p.playin||p.playin.length===0)){
     let rank=standings().map(x=>x.idx);
     p.playin=[];
     for(let i=8;i<16;i++){
@@ -129,7 +129,7 @@ function advance(){
   }
 
   // Achtelfinale: Top 8 plus Playoff-Sieger
-  if(allDone(p.playin)&&!p.r16){
+  if(allDone(p.playin)&&(!p.r16||p.r16.length===0)){
     let rank=standings().map(x=>x.idx);
     let wins=p.playin.map(winner);
     if(wins.every(x=>x!==null)){
@@ -141,7 +141,7 @@ function advance(){
   }
 
   // Viertelfinale
-  if(allDone(p.r16)&&!p.qf){
+  if(allDone(p.r16)&&(!p.qf||p.qf.length===0)){
     let w=p.r16.map(winner);
     if(w.every(x=>x!==null)){
       p.qf=[
@@ -156,7 +156,7 @@ function advance(){
   }
 
   // Halbfinale
-  if(allDone(p.qf)&&!p.sf){
+  if(allDone(p.qf)&&(!p.sf||p.sf.length===0)){
     let w=p.qf.map(winner);
     if(w.every(x=>x!==null)){
       p.sf=[namedMatch(w[0],w[1]),namedMatch(w[2],w[3])];
@@ -166,7 +166,7 @@ function advance(){
   }
 
   // Finale
-  if(allDone(p.sf)&&!p.f){
+  if(allDone(p.sf)&&(!p.f||p.f.length===0)){
     let w=p.sf.map(winner);
     if(w.every(x=>x!==null)){
       p.f=[namedMatch(w[0],w[1])];
