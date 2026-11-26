@@ -14,7 +14,8 @@ async function load(){
     if(error)throw error;
     if(d?.state)data=d.state;
     data.teams=data.teams||fallbackTeams;data.matches=data.matches||[];
-    if(!data.playoffs||Array.isArray(data.playoffs)||typeof data.playoffs!=='object')data.playoffs={};
+    if(!data.playoffs||Array.isArray(data.playoffs)||typeof data.playoffs!=='object')data.playoffs=makeSkeleton();
+    for(const k of ['playin','r16','qf','sf','f'])if(!data.playoffs[k]?.length)data.playoffs[k]=makeSkeleton()[k];
     window.BC.data=data;
     const changed=advance();render();
     if(changed){const {error:saveError}=await db.from('tournament_state').upsert({id:1,state:data});if(saveError)console.error('Playoffs speichern fehlgeschlagen:',saveError);}
@@ -87,11 +88,9 @@ function renderPlayoffs(){
   let el=document.getElementById('playofflist');
   if(!el)return;
   let p=data.playoffs;
-  if(!p||Array.isArray(p)||typeof p!=='object'){p={};data.playoffs=p;}
+  if(!p||Array.isArray(p)||typeof p!=='object'){p=makeSkeleton();data.playoffs=p;}
   let keys=['playin','r16','qf','sf','f'];
-  el.innerHTML=keys.map(k=>p[k]?.length?
-    `<h3>${roundLabel(k)}</h3>${p[k].map(matchHtml).join('')}`:''
-  ).join('')||'<p>Die Playoff-Runden erscheinen automatisch, sobald alle Ligaspiele abgeschlossen sind.</p>';
+  el.innerHTML=keys.map(k=>`<h3>${roundLabel(k)}</h3>${(p[k]||[]).map(matchHtml).join('')}`).join('');
 }
 
 function allDone(ms){
@@ -111,8 +110,10 @@ function winner(m){
 function namedMatch(h,a){
   return {h,a,hs:null,as:null};
 }
+function makeSkeleton(){return {playin:Array.from({length:8},(_,i)=>namedMatch('Team Playoff '+(i*2+1),'Team Playoff '+(i*2+2))),r16:Array.from({length:8},(_,i)=>namedMatch('Sieger Playoff '+(i+1),'Top 8 Team '+(i+1))),qf:Array.from({length:4},(_,i)=>namedMatch('Sieger AF '+(i*2+1),'Sieger AF '+(i*2+2))),sf:Array.from({length:2},(_,i)=>namedMatch('Sieger VF '+(i*2+1),'Sieger VF '+(i*2+2))),f:[namedMatch('Sieger HF 1','Sieger HF 2')]};}
 
 function advance(){
+  return false;
   let changed=false;
   let p=data.playoffs;
   if(!p||Array.isArray(p)||typeof p!=='object'){p={};data.playoffs=p;}
