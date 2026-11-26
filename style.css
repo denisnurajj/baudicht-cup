@@ -69,7 +69,7 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 .next-teams{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;align-items:center!important}.next-teams span:first-child{text-align:right!important}.next-teams span:last-child{text-align:left!important}.next-teams strong{white-space:nowrap!important;justify-self:center!important}
 
 /* Qualification separator after top 8 */
-#standings tr.qualification-divider td{border-top:1px solid #333!important;border-bottom:0!important;background:transparent!important;color:#9ec8ff!important;text-align:center!important;font-weight:700!important;letter-spacing:1px!important;padding:4px 8px!important;font-size:12px!important}
+#standings tr.qualification-divider td{border-top:0!important;border-bottom:1px solid #333!important;background:transparent!important;color:#9ec8ff!important;text-align:center!important;font-weight:700!important;letter-spacing:1px!important;padding:4px 8px!important;font-size:12px!important}
 
 /* Highlight playoff-qualified top 8 */
 #standings tbody tr:nth-child(-n+8){background:rgba(35,145,85,.16)!important}#standings tbody tr:nth-child(-n+8) td:first-child{border-left:3px solid #35a66a!important}
