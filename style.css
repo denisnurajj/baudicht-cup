@@ -95,3 +95,8 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 .next-teams>span .team-logo{width:54px!important;height:54px!important;flex:0 0 54px!important;object-fit:contain!important;}
 .next-teams>span>span{font-size:clamp(17px,2.6vw,25px)!important;line-height:1.15!important;font-weight:800!important;}
 @media(max-width:600px){.next-teams>span .team-logo{width:42px!important;height:42px!important;flex-basis:42px!important}.next-teams>span>span{font-size:16px!important}}
+
+/* More prominent team logos in featured matches */
+.next-teams>span .team-logo{width:76px!important;height:76px!important;flex:0 0 76px!important;object-fit:contain!important;background:rgba(255,255,255,.96)!important;border-radius:12px!important;padding:6px!important;box-shadow:0 3px 12px rgba(0,0,0,.28)!important;}
+.next-teams>span>span{font-size:clamp(18px,2.2vw,23px)!important;line-height:1.12!important;font-weight:750!important;}
+@media(max-width:600px){.next-teams>span .team-logo{width:58px!important;height:58px!important;flex-basis:58px!important}.next-teams>span>span{font-size:17px!important}}
