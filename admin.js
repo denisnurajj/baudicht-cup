@@ -140,7 +140,21 @@ function status(t){
 }
 
 document.getElementById('advanceko').onclick=async()=>{
- try{B.advance();await B.save();draw();status("KO-Runden geprüft und aktualisiert.");}catch(e){status("Aktualisierung fehlgeschlagen: "+e.message);}
+ try{
+ const p=B.data.playoffs||{};
+ const pending=[];
+ for(const k of ['playin','r16','qf','sf']){
+  const arr=p[k]||[];
+  if(arr.length){
+   const incomplete=arr.filter(m=>m.hs==null||m.as==null);
+   const ties=arr.filter(m=>m.hs!=null&&m.as!=null&&m.hs===m.as&&!m.winnerOverride);
+   if(incomplete.length)pending.push(k+": "+incomplete.length+" Spiel(e) ohne beide Resultate");
+   if(ties.length)pending.push(k+": "+ties.length+" Unentschieden ohne Siegerauswahl");
+  }
+ }
+ B.advance();await B.save();draw();
+ status(pending.length?"KO-Check: "+pending.join(" | "):"KO-Runden geprüft und aktualisiert. Wenn die nächste Runde fehlt, prüfe ob die Runde vorher tatsächlich 8/4/2 Spiele enthält.");
+}catch(e){status("Aktualisierung fehlgeschlagen: "+e.message);}
 };
 document.getElementById('resetresults').onclick=async()=>{
  if(!confirm("ALLE gespeicherten Resultate und KO-Runden löschen? Der Spielplan und die Teamnamen bleiben erhalten."))return;
