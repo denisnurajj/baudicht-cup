@@ -58,3 +58,5 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 
 /* Instagram link */
 .instagram-link{display:flex;justify-content:center;align-items:center;gap:10px;margin:22px auto 8px;padding:13px 20px;width:max-content;max-width:100%;border:1px solid #75a8ef;border-radius:10px;background:linear-gradient(135deg,#153f8b,#071a46);color:#fff;text-decoration:none;font-weight:900;letter-spacing:1px;box-shadow:0 5px 18px rgba(0,0,0,.2);transition:transform .15s ease,filter .15s ease}.instagram-link:hover{transform:translateY(-2px);filter:brightness(1.15)}
+
+.instagram-icon{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:2px solid #fff;border-radius:6px;font-size:20px;font-weight:700;line-height:1;position:relative}.instagram-icon:after{content:'';position:absolute;width:7px;height:7px;border:2px solid #fff;border-radius:50%}.instagram-icon:before{content:'';position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;right:3px;top:3px}
