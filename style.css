@@ -82,3 +82,8 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 /* Subtle yellow highlight for standings ranks 9–24 */
 #standings tbody tr:nth-child(n+10):nth-child(-n+25){background:rgba(255,220,70,.10)!important;}
 #standings tbody tr:nth-child(n+10):nth-child(-n+25) td:first-child{border-left:3px solid rgba(255,220,70,.5)!important;}
+
+/* Champions League artwork subtly behind standings table */
+#standings{position:relative;isolation:isolate;overflow:hidden;background-color:#0b1b3d!important;}
+#standings::before{content:'';position:absolute;inset:0;background-image:url('cl-bg.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;opacity:.075;pointer-events:none;z-index:0;}
+#standings>*{position:relative;z-index:1;}
