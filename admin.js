@@ -71,11 +71,12 @@ function participant(m,side){
 }
 
 function row(m,i,round){
+ const ko=round!=='matches';
  return `<div class="adminrow">
- <span>${B.esc(participant(m,'h'))}</span>
+ ${ko?`<input type="text" class="participant-name" data-round="${round}" data-i="${i}" data-side="h" value="${B.esc(participant(m,'h'))}">`:`<span>${B.esc(participant(m,'h'))}</span>`}
  <input type="number" min="0" data-round="${round}" data-i="${i}" data-side="hs" value="${m.hs??''}">
  <input type="number" min="0" data-round="${round}" data-i="${i}" data-side="as" value="${m.as??''}">
- <span>${B.esc(participant(m,'a'))}</span>
+ ${ko?`<input type="text" class="participant-name" data-round="${round}" data-i="${i}" data-side="a" value="${B.esc(participant(m,'a'))}">`:`<span>${B.esc(participant(m,'a'))}</span>`}
  ${m.hs!=null&&m.as!=null&&m.hs===m.as?'<select class="winnerpick" data-round="'+round+'" data-i="'+i+'"><option value="">Sieger bei Gleichstand wählen</option><option value="h">Heimteam gewinnt</option><option value="a">Auswärtsteam gewinnt</option></select>':''}
  </div>`;
 }
@@ -90,7 +91,7 @@ function roundsMarkup(p){
   f:'Finale'
  };
  return keys.map(k=>{
-  if(!p[k]?.length)return `<section class="admin-round"><h3>${labels[k]}</h3><p class="round-note">${k==='playin'?'Wird nach Abschluss aller Ligaspiele automatisch erstellt.':k==='r16'?'Wird nach den Playoff-Spielen automatisch erstellt.':'Wird nach Abschluss der vorherigen KO-Runde automatisch erstellt.'}</p></section>`;
+  if(!p[k]?.length)return '';
   return `<section class="admin-round"><h3>${labels[k]}</h3>${p[k].map((m,i)=>row(m,i,k)).join('')}</section>`;
  }).join('');
 }
@@ -104,6 +105,9 @@ function draw(){
  ${d.matches.map((m,i)=>row(m,i,'matches')).join('')}
  ${roundsMarkup(d.playoffs||{})}`;
 
+ document.querySelectorAll('#adminmatches .participant-name').forEach(x=>{
+  x.onchange=async()=>{const m=d.playoffs[x.dataset.round]?.[Number(x.dataset.i)];if(!m)return;m[x.dataset.side]=x.value.trim();try{await B.save();status('Teilnehmer gespeichert.');}catch(e){status('Speichern fehlgeschlagen: '+e.message);}};
+ });
  document.querySelectorAll('#adminmatches .winnerpick').forEach(x=>{
   x.value=d.playoffs[x.dataset.round]?.[Number(x.dataset.i)]?.winnerOverride||'';
   x.onchange=async()=>{
@@ -159,8 +163,8 @@ document.getElementById('advanceko').onclick=async()=>{
 document.getElementById('resetresults').onclick=async()=>{
  if(!confirm("ALLE gespeicherten Resultate und KO-Runden löschen? Der Spielplan und die Teamnamen bleiben erhalten."))return;
  B.data.matches.forEach(m=>{m.hs=null;m.as=null;});
- B.data.playoffs={};
- try{await B.save();draw();status("Resultate und KO-Runden zurückgesetzt. Spielplan und Teams bleiben erhalten.");}catch(e){status("Reset fehlgeschlagen: "+e.message);}
+ for(const k of ['playin','r16','qf','sf','f']) (B.data.playoffs[k]||[]).forEach(m=>{m.hs=null;m.as=null;m.winnerOverride=null;});
+ try{await B.save();draw();status("Resultate zurückgesetzt. KO-Struktur und Teams bleiben erhalten.");}catch(e){status("Reset fehlgeschlagen: "+e.message);}
 };
 document.getElementById('refresh').onclick=async()=>{
  await B.load();
