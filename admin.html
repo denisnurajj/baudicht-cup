@@ -11,11 +11,11 @@
       if(!em.value.trim()||!pw.value)throw new Error('E-Mail und Passwort eingeben.');
       const {error}=await db.auth.signInWithPassword({email:em.value.trim(),password:pw.value});if(error)throw error;
       const {data:ok,error:ae}=await db.rpc('is_baudicht_admin');if(ae)throw ae;if(!ok)throw new Error('Dieses Konto ist nicht als Turnier-Admin freigeschaltet.');
-      if(window.BC&&window.BC.db){document.getElementById('login').classList.add('hidden');document.getElementById('admin').classList.remove('hidden');document.getElementById('logoutbtn').classList.remove('hidden');if(msg)msg.textContent='';await window.BC.load();if(window.__baudichtAdminDraw)window.__baudichtAdminDraw();if(msg)msg.textContent='';}
+      if(window.BC&&window.BC.db){document.getElementById('login').classList.add('hidden');document.getElementById('admin').classList.remove('hidden');document.getElementById('logoutbtn').classList.remove('hidden');if(msg)msg.textContent='';if(msg)msg.textContent='';try{await Promise.race([window.BC.load(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Datenbank-Laden dauert zu lange')),12000))]);if(window.__baudichtAdminDraw)window.__baudichtAdminDraw();}catch(loadErr){if(msg)msg.textContent='Admin geöffnet, Daten laden fehlgeschlagen: '+loadErr.message;}}
       else {document.getElementById('login').classList.add('hidden');document.getElementById('admin').classList.remove('hidden');msg.textContent='Angemeldet. Admin-Skript fehlt – Funktionen können noch nicht geladen sein.';}
     }catch(e){if(msg)msg.textContent='Login-Fehler: '+(e.message||String(e));}
     finally{if(btn)btn.disabled=false;}
   };
   const b=document.getElementById('loginbtn');if(b)b.onclick=window.__adminLoginFallback;
 })();
-</script><script src="app.js?v=teamlogos2"></script><script src="admin.js?v=loginfix9"></script></body></html>
+</script><script src="app.js?v=teamlogos3"></script><script src="admin.js?v=loginfix10"></script></body></html>
