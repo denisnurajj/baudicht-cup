@@ -100,3 +100,8 @@ header p{font-size:clamp(15px,2.3vw,19px)!important;font-weight:900!important;co
 .next-teams>span .team-logo{width:76px!important;height:76px!important;flex:0 0 76px!important;object-fit:contain!important;background:rgba(255,255,255,.96)!important;border-radius:12px!important;padding:6px!important;box-shadow:0 3px 12px rgba(0,0,0,.28)!important;}
 .next-teams>span>span{font-size:clamp(18px,2.2vw,23px)!important;line-height:1.12!important;font-weight:750!important;}
 @media(max-width:600px){.next-teams>span .team-logo{width:58px!important;height:58px!important;flex-basis:58px!important}.next-teams>span>span{font-size:17px!important}}
+
+/* Clearer, larger team crests in live standings */
+#standings .team-cell img.team-logo{width:42px!important;height:42px!important;flex:0 0 42px!important;object-fit:contain!important;background:#fff!important;border-radius:7px!important;padding:4px!important;box-shadow:0 2px 8px rgba(0,0,0,.32)!important;}
+#standings .team-cell{gap:12px!important;}
+@media(max-width:600px){#standings .team-cell img.team-logo{width:34px!important;height:34px!important;flex-basis:34px!important;padding:3px!important}}
