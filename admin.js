@@ -76,6 +76,7 @@ function row(m,i,round){
  <input type="number" min="0" data-round="${round}" data-i="${i}" data-side="hs" value="${m.hs??''}">
  <input type="number" min="0" data-round="${round}" data-i="${i}" data-side="as" value="${m.as??''}">
  <span>${B.esc(participant(m,'a'))}</span>
+ ${m.hs!=null&&m.as!=null&&m.hs===m.as?'<select class="winnerpick" data-round="'+round+'" data-i="'+i+'"><option value="">Sieger bei Gleichstand wählen</option><option value="h">Heimteam gewinnt</option><option value="a">Auswärtsteam gewinnt</option></select>':''}
  </div>`;
 }
 
@@ -103,6 +104,15 @@ function draw(){
  ${d.matches.map((m,i)=>row(m,i,'matches')).join('')}
  ${roundsMarkup(d.playoffs||{})}`;
 
+ document.querySelectorAll('#adminmatches .winnerpick').forEach(x=>{
+  x.value=d.playoffs[x.dataset.round]?.[Number(x.dataset.i)]?.winnerOverride||'';
+  x.onchange=async()=>{
+   const m=d.playoffs[x.dataset.round]?.[Number(x.dataset.i)]; if(!m)return;
+   m.winnerOverride=x.value||null;
+   try{await B.save();draw();status('Sieger gespeichert – nächste Runde wird erstellt.');}
+   catch(e){status('Speichern fehlgeschlagen: '+e.message);}
+  };
+ });
  document.querySelectorAll('#adminmatches input').forEach(x=>{
   x.onchange=async()=>{
    let round=x.dataset.round;
