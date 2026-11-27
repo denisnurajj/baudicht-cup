@@ -196,3 +196,9 @@ section.sponsors{margin-top:42px!important;}
 /* Fix purple tint in sponsor grid and bring rotating ad closer to standings */
 .sponsor-grid .sponsor-card:nth-child(5){background:#f8f8f8!important;color:#111!important;}
 #sponsorRotation{margin:14px auto 26px!important;}
+
+/* Give team names a comfortable gap from crests in featured match panel */
+.next-teams>span{display:flex!important;align-items:center!important;gap:16px!important;min-width:0!important;}
+.next-teams>span:first-child{justify-content:flex-end!important;}
+.next-teams>span:last-child{justify-content:flex-start!important;}
+@media(max-width:600px){.next-teams>span{gap:10px!important;}}
